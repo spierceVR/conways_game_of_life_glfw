@@ -48,13 +48,7 @@ int main()
     srand(time(NULL)); 
     std::vector<std::vector<bool>> oldArr(cols, std::vector<bool>(rows, 0));
     std::vector<std::vector<bool>> nextArr(cols, std::vector<bool>(rows, 0));
-    for (int i = 0; i < cols; i++) {
-        for (int j = 0; j < rows; j++) {
-            oldArr[i][j] = rand() % 2;;
-        }
-    }
 
-    nextArr = oldArr;
 
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
