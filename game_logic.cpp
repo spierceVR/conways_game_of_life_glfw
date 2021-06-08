@@ -29,22 +29,21 @@ void update(std::vector<std::vector<bool>>& old, std::vector<std::vector<bool>>&
     for (int i = 0; i < cols; i++) {
         for (int j = 0; j < rows; j++) {
             int neighbours = countNeighbors(old, i, j);
-            if (old[j][i] == 1 && neighbours == 2){
-                next[j][i] = 1;
+            switch (old[j][i]) {
+            case 1:
+                if (neighbours < 2 || neighbours > 3) {
+                    next[j][i] = 0;
+                }
+                else {
+                    next[j][i] = old[j][i];
+                }
+                break;
+            case 0:
+                if (neighbours == 3) {
+                    next[j][i] = 1;
+                }
+                break;
             }
-            else if (old[j][i] == 1 && neighbours == 3) {
-                next[j][i] = 1;
-            }
-            else if (old[j][i] == 0 && neighbours == 3) {
-                next[j][i] = 1;
-            }
-            else if (old[j][i] == 1 && neighbours > 3) {
-                next[j][i] = 0;
-            }
-            else {
-                next[j][i] == 0;
-            }
-
         }
     }
 }

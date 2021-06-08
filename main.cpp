@@ -48,6 +48,11 @@ int main()
     srand(time(NULL)); 
     std::vector<std::vector<bool>> oldArr(cols, std::vector<bool>(rows, 0));
     std::vector<std::vector<bool>> nextArr(cols, std::vector<bool>(rows, 0));
+    for (int i = 0; i < cols; i++) {
+        for (int j = 0; j < rows; j++) {
+            oldArr[i][j] = rand() % 2; // fill grid with random 0 or 1
+        }
+    }
 
 
     /* Make the window's context current */
@@ -70,7 +75,7 @@ int main()
         glClear(GL_COLOR_BUFFER_BIT);
         /* Render here */
 
-        glColor3f(1.0, 1.0, 1.0);
+        glColor3f(0.1, 1.0, 0.1);
 
 
         if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) { // check if space was pressed
