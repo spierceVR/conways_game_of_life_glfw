@@ -4,5 +4,4 @@ C++ Open GL + GLFW visualizer for conways game of life
 ## Features:
 - Pause button (Spacebar)
 - Wraparound 
-## Planned Features:
-- Draw new squares onto the grid while game is paused
+- Add or remove squares onto the grid while game is paused using mouse
