@@ -18,11 +18,14 @@ int main()
     const int cols = 32;
     const int rows = 32;
     const int scale = 20;
-    const int cellx = scale;
-    const int celly = scale;
+    const int cellX = scale;
+    const int cellY = scale;
 
     const int screenW = cols * scale;
     const int screenH = rows * scale;
+
+    double mouseX;
+    double mouseY;
 
     bool paused = false;
 
@@ -31,6 +34,8 @@ int main()
 
     glfwSetKeyCallback(window, keyCallback);
     glfwSetCursorPosCallback(window, cursorPositionCallback);
+    glfwSetCursorEnterCallback(window, cursorEnterCallback);
+    glfwSetMouseButtonCallback(window, mouseButtonCallback);
 
     if (!window)
     {
@@ -39,13 +44,14 @@ int main()
     }
 
     srand(time(NULL)); 
-    std::vector<std::vector<int>> oldArr(cols, std::vector<int>(rows, 0));
-    std::vector<std::vector<int>> nextArr(cols, std::vector<int>(rows, 0));
-    for (int i = 0; i < cols; i++) {
+    std::vector<std::vector<bool>> oldArr(cols, std::vector<bool>(rows, 0));
+    std::vector<std::vector<bool>> nextArr(cols, std::vector<bool>(rows, 0));
+    /*for (int i = 0; i < cols; i++) {
         for (int j = 0; j < rows; j++) {
             oldArr[i][j] = rand() % 2;;
         }
-    }
+    }*/
+
     nextArr = oldArr;
 
     /* Make the window's context current */
@@ -71,29 +77,52 @@ int main()
         glColor3f(1.0, 1.0, 1.0);
 
 
-        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) { // check if space was pressed and released
+        if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS) { // check if space was pressed
             paused = !paused;
+            if (paused) {
+                std::cout << "Paused\n";
+            }
+            else {
+                std::cout << "Unpaused\n";
+            }
         }
         
         if(!paused){
             for (int i = 0; i < cols; i++) {
                 for (int j = 0; j < rows; j++) {
-                    if (nextArr[i][j] == 1) {
+                    if (oldArr[i][j] == 1) {
                         //draw rectangle if array contains 1 at current indices
-                        glRecti(i * cellx, j * celly, ((i + 1) * cellx) - 2, ((j + 1) * celly) - 2);
+                        glRecti(i * cellX, j * cellY, ((i + 1) * cellX) - 2, ((j + 1) * cellY) - 2);
                     }
                 }
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
 
-            nextArr = update(oldArr, nextArr); // update nextArr using oldArr
+            update(oldArr, nextArr); // update nextArr using oldArr
             oldArr = nextArr; // make oldArr the same as our updated nextArr
 
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
         }
-        else {
-            std::this_thread::sleep_for(std::chrono::milliseconds(120)); // add 20 second guess for draw time to normal 330ms delay 
+        else {//when paused:
+            glfwGetCursorPos(window, &mouseX, &mouseY);
+            for (int i = 0; i < cols; i++) {
+                for (int j = 0; j < rows; j++) {
+                    if (oldArr[i][j] == 1) {
+                        //draw rectangle if array contains 1 at current indices
+                        glRecti(i * cellX, j * cellY, ((i + 1) * cellX) - 2, ((j + 1) * cellY) - 2);
+                    }
+                }
+            }
+            if (mouseX > 0 && mouseX < screenW && mouseY > 0 && mouseY < screenW) {
+                if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) { // check if left mouse was pressed
+                    oldArr[mouseX / cellX][rows-1 - ((int)(mouseY / cellY))] = !oldArr[mouseX / cellX][rows-1 - ((int)(mouseY / cellY))];
+                    std::cout << "swapping cell state at " << (int)mouseX/cellX << "," << (int)mouseY/cellY << "\n";
+                }
+            }
+            /* Swap front and back buffers */
+            glfwSwapBuffers(window);
+            std::this_thread::sleep_for(std::chrono::milliseconds(50)); // add 30 second guess for draw time to normal 100ms delay 
         }   
 
         /* Poll for and process events */
@@ -102,4 +131,5 @@ int main()
 
     glfwTerminate();
     return 0;
+
 }

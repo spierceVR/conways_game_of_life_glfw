@@ -21,5 +21,23 @@ void keyCallback(GLFWwindow *window, int key, int scancode, int action, int mods
 }
 
 void cursorPositionCallback(GLFWwindow *window, double xPos, double yPos) {
-	std::cout << xPos << " : " << yPos << "\n";
+
+}
+
+void cursorEnterCallback(GLFWwindow* window, int entered) {
+	if (entered) {
+		std::cout << "entered window \n";
+	}
+	else {
+		std::cout << "left window \n";
+	}
+}
+
+void mouseButtonCallback(GLFWwindow* window, int button, int action, int mods) {
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS) {
+		std::cout << "Left button pressed\n";
+	}
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE) {
+		std::cout << "Left button released\n";
+	}
 }

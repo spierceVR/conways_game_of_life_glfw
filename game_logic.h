@@ -1,5 +1,5 @@
 #pragma once
 
 #include <vector>
-int countNeighbors(std::vector<std::vector<int>>& grid, int& x, int& y);
-std::vector<std::vector<int>> update(std::vector<std::vector<int>>& old, std::vector<std::vector<int>>& next);
+int countNeighbors(std::vector<std::vector<bool>>& grid, const int& x, const int& y);
+void update(std::vector<std::vector<bool>>& old, std::vector<std::vector<bool>>& next);
