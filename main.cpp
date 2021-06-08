@@ -15,7 +15,7 @@ int main()
     if (!glfwInit())
         return -1;
     
-    const int frameDelay = 50; // time to sleep (in ms) after each generation is drawn and updated
+    const int genDelay = 50; // time to sleep (in ms) after each generation is drawn and updated
 
     const int cols = 32;
     const int rows = 32;
@@ -98,7 +98,7 @@ int main()
                     }
                 }
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            std::this_thread::sleep_for(std::chrono::milliseconds(genDelay));
 
             update(oldArr, nextArr); // update nextArr using oldArr
             oldArr = nextArr; // make oldArr the same as our updated nextArr
@@ -124,7 +124,7 @@ int main()
             }
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
-            std::this_thread::sleep_for(std::chrono::milliseconds(50)); 
+            std::this_thread::sleep_for(std::chrono::milliseconds(genDelay)); 
         }   
 
         /* Poll for and process events */
