@@ -14,6 +14,8 @@ int main()
     /* Initialize the library */
     if (!glfwInit())
         return -1;
+    
+    const int frameDelay = 50; // time to sleep (in ms) after each generation is drawn and updated
 
     const int cols = 32;
     const int rows = 32;
@@ -122,7 +124,7 @@ int main()
             }
             /* Swap front and back buffers */
             glfwSwapBuffers(window);
-            std::this_thread::sleep_for(std::chrono::milliseconds(50)); // add 30 second guess for draw time to normal 100ms delay 
+            std::this_thread::sleep_for(std::chrono::milliseconds(50)); 
         }   
 
         /* Poll for and process events */
