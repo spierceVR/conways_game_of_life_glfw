@@ -1,4 +1,5 @@
 # Conway's Game of Life Visualizer
+[![Video Demonstration](http://img.youtube.com/vi/mHb-43Q6hzI/0.jpg)](https://www.youtube.com/watch?v=mHb-43Q6hzI "Conway's Game of Life in OpenGL")
 C++ & Open GL / GLFW visualizer for conways game of life
 
 ## Features:
